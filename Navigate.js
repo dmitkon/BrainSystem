@@ -15,7 +15,7 @@ const Navigate = () => {
                 <Stack.Screen 
                     name="main"
                     component={Main}
-                    options={{title: "Main"}}
+                    options={{title: "Main", orientation: 'portrait'}}
                     />
 
                 <Stack.Screen 
