@@ -1,10 +1,16 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 
-const Main = () => {
+const Main = ({navigation}) => {
+    const loadScreen = (screen) => {
+        navigation.navigate(screen);
+    }
+
     return (
         <View>
-            <Text>Hello world!!!</Text>
+            <Text>Brain System</Text>
+            <Button title='Host' onPress={() => {loadScreen('host')}}/>
+            <Button title='Player' onPress={() => {loadScreen('player')}}/>
         </View>
     );
 };
