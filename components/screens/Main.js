@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, Button, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { gStyle } from '../../styles/GeneralStyles';
+import MainButton from '../items/MainButton';
 
 const Main = ({navigation}) => {
     const loadScreen = (screen) => {
@@ -10,13 +11,9 @@ const Main = ({navigation}) => {
     return (
         <View style={gStyle.screen}>
             <Text style={gStyle.text} >Brain System</Text>
-            <Image style={{width: 300, height: 300}} source={require('../../res/BrainSystem.png')} />
-            <TouchableOpacity style={gStyle.menuButton} title='Host' onPress={() => {loadScreen('host')}} >
-                <Text style={gStyle.buttonText} >Host</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={gStyle.menuButton} title='Player' onPress={() => {loadScreen('player')}} >
-                <Text style={gStyle.buttonText} >Player</Text>
-            </TouchableOpacity>
+            <Image style={gStyle.display} source={require('../../res/BrainSystem.png')} />
+            <MainButton title='Host' pressFunction={() => {loadScreen('host')}} />
+            <MainButton title='Player' pressFunction={() => {loadScreen('player')}} />
         </View>
     );
 };

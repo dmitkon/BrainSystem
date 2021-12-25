@@ -32,5 +32,19 @@ export const gStyle = StyleSheet.create({
 
     buttonText: {
         fontSize: 24
+    },
+
+    input: {
+        width: 300,
+        height: 50,
+        margin: 10,
+        borderWidth: 1,
+        padding: 10,
+        fontSize: 24
+    },
+
+    display: {
+        width: 300, 
+        height: 300
     }
 });
