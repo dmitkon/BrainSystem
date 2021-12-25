@@ -36,11 +36,12 @@ export const gStyle = StyleSheet.create({
 
     input: {
         width: 300,
-        height: 50,
+        height: 60,
         margin: 10,
         borderWidth: 1,
-        padding: 10,
-        fontSize: 24
+        padding: 15,
+        fontSize: 24,
+        borderRadius: 100,
     },
 
     display: {

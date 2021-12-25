@@ -1,10 +1,24 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput } from 'react-native';
+import { gStyle } from '../../styles/GeneralStyles';
+import MainButton from '../items/MainButton';
 
-const Host = () => {
+const Host = ({navigation}) => {
+    const loadScreen = (screen) => {
+        navigation.navigate(screen, { hostName });
+    };
+
+    const [hostName, setHostName] = useState("");
+
+    const onChange = (hostName) => {
+        setHostName(hostName);
+    };
+
     return (
-        <View>
-            <Text>Hello host!!!</Text>
+        <View style={gStyle.screen}>
+            <Text style={gStyle.text}>Name:</Text>
+            <TextInput style={gStyle.input} onChangeText={onChange}/>
+            <MainButton title='Begin' pressFunction={() => {loadScreen('hostSystem')}}/>
         </View>
     );
 };
