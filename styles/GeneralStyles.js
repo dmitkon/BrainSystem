@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export const gStyle = StyleSheet.create({
     screen: {
@@ -10,28 +10,8 @@ export const gStyle = StyleSheet.create({
     },
 
     text: {
-        fontSize: 36,
-    },
-
-    menuButton: {
-        backgroundColor: "#E6E6E6",
-        borderRadius: 100,
-        width: 300,
-        height: 100,
-        shadowColor: "rgba(0,0,0,1)",
-        shadowOffset: {
-          width: 3,
-          height: 3
-        },
-        elevation: 10,
-        shadowOpacity: 0.21,
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: 10
-    },
-
-    buttonText: {
-        fontSize: 24
+        fontSize: 24,
+        color: 'black'
     },
 
     input: {
@@ -44,8 +24,13 @@ export const gStyle = StyleSheet.create({
         borderRadius: 100,
     },
 
-    display: {
+    brainDisplay: {
         width: 300, 
         height: 300
+    },
+
+    brainTitle: {
+        fontSize: 36,
+        color: 'black'
     }
 });

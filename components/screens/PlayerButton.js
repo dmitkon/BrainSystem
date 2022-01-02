@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text, SafeAreaView } from 'react-native';
 
 const PlayerButton = ({route}) => {
     return(
-        <View>
+        <SafeAreaView>
             <Text>Hello {route.params.playerName}!</Text>
-        </View>
+        </SafeAreaView>
     );
 };
 

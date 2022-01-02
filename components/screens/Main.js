@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { Text, Image, SafeAreaView } from 'react-native';
 import { gStyle } from '../../styles/GeneralStyles';
 import MainButton from '../items/MainButton';
 
@@ -9,12 +9,12 @@ const Main = ({navigation}) => {
     }
 
     return (
-        <View style={gStyle.screen}>
-            <Text style={gStyle.text} >Brain System</Text>
-            <Image style={gStyle.display} source={require('../../res/BrainSystem.png')} />
+        <SafeAreaView style={gStyle.screen}>
+            <Text style={gStyle.brainTitle} >Brain System</Text>
+            <Image style={gStyle.brainDisplay} source={require('../../res/BrainSystem.png')} />
             <MainButton title='Host' pressFunction={() => {loadScreen('host')}} />
             <MainButton title='Player' pressFunction={() => {loadScreen('player')}} />
-        </View>
+        </SafeAreaView>
     );
 };
 
