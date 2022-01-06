@@ -7,17 +7,25 @@ import MainSwitch from '../items/MainSwitch';
 
 const Host = ({navigation}) => {
     const loadScreen = (screen) => {
-        const timer1Value = parseInt(timer1String);
-        const timer2Value = parseInt(timer2String);
+        const addTimer = (timers, timer, switchValue) => {
+            let new_timers = timers.slice();
+
+            if (switchValue)
+                new_timers.push(timer);
+
+            return new_timers;
+        };
+        
+        let timers = [];
+
+        timers = addTimer(timers, parseInt(timer1String), timer1SwitchValue);
+        timers = addTimer(timers, parseInt(timer2String), timer2SwitchValue);
 
         navigation.navigate(
             screen, 
             { 
                 hostName,
-                timer1SwitchValue,
-                timer1Value,
-                timer2SwitchValue,
-                timer2Value,
+                timers,
                 fStartSwitchValue,
                 resetLTimerSwitchValue,
                 lockButtonsSwitchValue

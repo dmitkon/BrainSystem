@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
 
-export const mainButtonStyles = StyleSheet.create({
+export const systemButtonStyles = StyleSheet.create({
     mainButton: {
         backgroundColor: '#E6E6E6',
         borderRadius: 100,
-        width: 300,
+        width: 100,
         height: 100,
         shadowColor: 'rgba(0,0,0,1)',
         shadowOffset: {
