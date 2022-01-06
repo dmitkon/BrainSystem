@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, TextInput, FlatList, View } from 'react-native';
+import { Text, TextInput, FlatList, View, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { gStyle } from '../../styles/GeneralStyles';
 import MainButton from '../items/MainButton';
@@ -47,9 +47,8 @@ const Host = ({navigation}) => {
     const timerSwitchHandle = (switchValue, switchHandle, editable, setEditable, defaultTimer, setTimer) => {
         setEditable(!editable);
         
-        if (switchValue) {
+        if (switchValue)
             setTimer(defaultTimer);
-        }
 
         switchHandle(!switchValue);
     };
@@ -58,24 +57,40 @@ const Host = ({navigation}) => {
         handle(value);
     };
 
-    const beginButtonHandle = () => {
-        if (isCorrectConfig(timer1String, timer2String)) {
-            loadScreen('hostSystem');
-        };
-    };
-
     const simpleSwichHandle = (value, handle) => {
         handle(!value);
     };
 
-    const isCorrectConfig = (timer1String, timer2String) => {
-        let result = true;
+    const beginButtonHandle = () => {
+        let errorMsg = checkCorrectConfig(timer1String, timer2String, hostName);
 
-        if (!(timer1String.match("^[0-9]+$") && timer2String.match("^[0-9]+$"))) {
-            result = false;
+        if (errorMsg == "OK")
+            loadScreen('hostSystem');
+        else
+            Alert.alert("Host configure error", errorMsg, [{text: "OK"}])
+    };
+
+    const checkCorrectConfig = (timer1String, timer2String, hostName) => {
+        const checkCorrectTimer = (timerString, number, errorMsg) => {
+            if (!(timerString.match("^[0-9]+$"))) {
+                if (errorMsg == "OK")
+                    errorMsg = "";
+    
+                errorMsg = errorMsg + "\"Timer " + number + "\" must contain only numbers!" + "\n";
+            };
+
+            return errorMsg;
         };
 
-        return result;
+        let errorMsg = "OK";
+
+        if (hostName == "")
+            errorMsg = "You must specify the name!" + "\n";
+
+        errorMsg = checkCorrectTimer(timer1String, 1, errorMsg);
+        errorMsg = checkCorrectTimer(timer2String, 2, errorMsg); 
+
+        return errorMsg;
     };
 
     return (
