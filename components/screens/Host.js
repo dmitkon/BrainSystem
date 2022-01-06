@@ -109,7 +109,7 @@ const Host = ({navigation}) => {
                         <Text style={gStyle.text}>Name:</Text>
                         <TextInput style={gStyle.input} onChangeText={(value) => {onChangeTextValue(value, setHostName)}}/>
 
-                        <Text style={gStyle.text} >Timer 1 (on/off):</Text>
+                        <Text style={gStyle.text}>Timer 1 (on/off):</Text>
                         <MainSwitch value={timer1SwitchValue} changeFunction={() => {
                             timerSwitchHandle(
                                 timer1SwitchValue, 
@@ -120,7 +120,7 @@ const Host = ({navigation}) => {
                                 setTimer1String)
                         }} />
 
-                        <Text style={gStyle.text} >Timer 1 (s):</Text>
+                        <Text style={gStyle.text}>Timer 1 (s):</Text>
                         <TextInput 
                             style={gStyle.input} 
                             value={timer1String} 

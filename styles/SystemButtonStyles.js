@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export const systemButtonStyles = StyleSheet.create({
-    mainButton: {
+    systemButton: {
         backgroundColor: '#E6E6E6',
         borderRadius: 100,
         width: 100,
@@ -18,8 +18,8 @@ export const systemButtonStyles = StyleSheet.create({
         margin: 10
     },
 
-    buttonText: {
-        fontSize: 24,
-        color: 'black'
-    },
+    icon: {
+        color: "rgba(128,128,128,1)",
+        fontSize: 50
+    }
 });

@@ -32,10 +32,5 @@ export const gStyle = StyleSheet.create({
     brainTitle: {
         fontSize: 36,
         color: 'black'
-    },
-
-    icon: {
-        color: "rgba(128,128,128,1)",
-        fontSize: 50
     }
 });

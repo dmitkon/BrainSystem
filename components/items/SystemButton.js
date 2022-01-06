@@ -1,13 +1,12 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { systemButtonStyles } from '../../styles/SystemButtonStyles'
-import Icon from 'react-native-vector-icons/Entypo'
-import { gStyle } from '../../styles/GeneralStyles';
+import { systemButtonStyles } from '../../styles/SystemButtonStyles';
+import Icon from 'react-native-vector-icons/Entypo';
 
 const SystemButton = (props) => {
     return(
-        <TouchableOpacity style={systemButtonStyles.mainButton} onPress={props.pressFunction} >
-            <Icon name='bell' style={gStyle.icon}/>
+        <TouchableOpacity style={systemButtonStyles.systemButton} onPress={props.pressFunction} >
+            <Icon name={props.nameIcon} style={systemButtonStyles.icon}/>
         </TouchableOpacity>
     );
 };

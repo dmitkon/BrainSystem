@@ -16,7 +16,7 @@ const Player = ({navigation}) => {
 
     return (
         <SafeAreaView style={gStyle.screen}>
-            <Text style={gStyle.text} >Name:</Text>
+            <Text style={gStyle.text}>Name:</Text>
             <TextInput style={gStyle.input} onChangeText={onChange} />
             <MainButton title='Begin' pressFunction={() => {loadScreen('playerButton')}} />
         </SafeAreaView>
