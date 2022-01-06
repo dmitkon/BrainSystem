@@ -7,7 +7,7 @@ import { gStyle } from '../../styles/GeneralStyles';
 const SystemButton = (props) => {
     return(
         <TouchableOpacity style={systemButtonStyles.mainButton} onPress={props.pressFunction} >
-            <Icon name='arrow-right' style={gStyle.icon}/>
+            <Icon name='bell' style={gStyle.icon}/>
         </TouchableOpacity>
     );
 };
