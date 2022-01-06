@@ -44,36 +44,18 @@ const Host = ({navigation}) => {
     const [resetLTimerSwitchValue, setResetLTimerSwitchValue] = useState(false);
     const [lockButtonsSwitchValue, setLockButtonsSwitchValue] = useState(false);
 
-    const onChangeName = (hostName) => {
-        setHostName(hostName);
-    };
-
-    const timer1SwitchHandle = () => {
-        setTimer1Editable(!timer1Editable);
+    const timerSwitchHandle = (switchValue, switchHandle, editable, setEditable, defaultTimer, setTimer) => {
+        setEditable(!editable);
         
-        if (timer1SwitchValue) {
-            setTimer1String(timer1DefaultString);
-        };
-
-        setTimer1SwitchValue(!timer1SwitchValue);
-    };
-
-    const timer2SwitchHandle = () => {
-        setTimer2Editable(!timer2Editable);
-        
-        if (timer2SwitchValue) {
-            setTimer2String(timer2DefaultString);
+        if (switchValue) {
+            setTimer(defaultTimer);
         }
 
-        setTimer2SwitchValue(!timer2SwitchValue);
+        switchHandle(!switchValue);
     };
 
-    const onChangeTimer1Value = (value) => {
-        setTimer1String(value);
-    };
-
-    const onChangeTimer2Value = (value) => {
-        setTimer2String(value);
+    const onChangeTextValue = (value, handle) => {
+        handle(value);
     };
 
     const beginButtonHandle = () => {
@@ -82,16 +64,8 @@ const Host = ({navigation}) => {
         };
     };
 
-    const fStartSwitchHandle = () => {
-        setFStartSwitchValue(!fStartSwitchValue);
-    };
-
-    const resetLTimerSwitchHandle = () => {
-        setResetLTimerSwitchValue(!resetLTimerSwitchValue);
-    };
-
-    const lockButtonsSwitchHandle = () => {
-        setLockButtonsSwitchValue(!lockButtonsSwitchValue);
+    const simpleSwichHandle = (value, handle) => {
+        handle(!value);
     };
 
     const isCorrectConfig = (timer1String, timer2String) => {
@@ -110,38 +84,54 @@ const Host = ({navigation}) => {
                 return (
                     <View>
                         <Text style={gStyle.text}>Name:</Text>
-                        <TextInput style={gStyle.input} onChangeText={onChangeName}/>
+                        <TextInput style={gStyle.input} onChangeText={(value) => {onChangeTextValue(value, setHostName)}}/>
 
                         <Text style={gStyle.text} >Timer 1 (on/off):</Text>
-                        <MainSwitch value={timer1SwitchValue} changeFunction={timer1SwitchHandle} />
+                        <MainSwitch value={timer1SwitchValue} changeFunction={() => {
+                            timerSwitchHandle(
+                                timer1SwitchValue, 
+                                setTimer1SwitchValue, 
+                                timer1Editable, 
+                                setTimer1Editable, 
+                                timer1DefaultString, 
+                                setTimer1String)
+                        }} />
 
                         <Text style={gStyle.text} >Timer 1 (s):</Text>
                         <TextInput 
                             style={gStyle.input} 
                             value={timer1String} 
                             keyboardType="numeric" 
-                            onChangeText={onChangeTimer1Value} 
+                            onChangeText={(value) => {onChangeTextValue(value, setTimer1String)}} 
                             editable={timer1Editable} />
                         
                         <Text style={gStyle.text} >Timer 2 (on/off):</Text>
-                        <MainSwitch value={timer2SwitchValue} changeFunction={timer2SwitchHandle} />
+                        <MainSwitch value={timer2SwitchValue} changeFunction={() => {
+                            timerSwitchHandle(
+                                timer2SwitchValue, 
+                                setTimer2SwitchValue, 
+                                timer2Editable, 
+                                setTimer2Editable, 
+                                timer2DefaultString, 
+                                setTimer2String)
+                        }} />
                         
                         <Text style={gStyle.text} >Timer 2 (s):</Text>
                         <TextInput 
                             style={gStyle.input} 
                             value={timer2String} 
                             keyboardType="numeric" 
-                            onChangeText={onChangeTimer2Value} 
+                            onChangeText={(value) => {onChangeTextValue(value, setTimer2String)}} 
                             editable={timer2Editable} />
 
                         <Text style={gStyle.text} >False start (on/off):</Text>
-                        <MainSwitch value={false} changeFunction={fStartSwitchHandle} />
+                        <MainSwitch value={false} changeFunction={() => {simpleSwichHandle(fStartSwitchValue, setFStartSwitchValue)}} />
 
                         <Text style={gStyle.text} >Reset last timer for next (on/off):</Text>
-                        <MainSwitch value={false} changeFunction={resetLTimerSwitchHandle} />
+                        <MainSwitch value={false} changeFunction={() => {simpleSwichHandle(resetLTimerSwitchValue, setResetLTimerSwitchValue)}} />
 
                         <Text style={gStyle.text} >Lock buttons before starting the system (on/off):</Text>
-                        <MainSwitch value={false} changeFunction={lockButtonsSwitchHandle} />
+                        <MainSwitch value={false} changeFunction={() => {simpleSwichHandle(lockButtonsSwitchValue, setLockButtonsSwitchValue)}} />
 
                         <MainButton title='Begin' pressFunction={beginButtonHandle} />
                     </View>
