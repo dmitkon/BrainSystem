@@ -75,7 +75,7 @@ const Host = ({navigation}) => {
         if (errorMsg == "OK")
             loadScreen('hostSystem');
         else
-            Alert.alert("Host configure error", errorMsg, [{text: "OK"}])
+            Alert.alert("Ошибка конфигурации системы", errorMsg, [{text: "OK"}])
     };
 
     const checkCorrectConfig = (timer1String, timer2String, hostName) => {
@@ -84,7 +84,7 @@ const Host = ({navigation}) => {
                 if (errorMsg == "OK")
                     errorMsg = "";
     
-                errorMsg = errorMsg + "\"Timer " + number + "\" must contain only numbers!" + "\n";
+                errorMsg = errorMsg + "\"Таймер " + number + "\" может содержать только цифры!" + "\n";
             };
 
             return errorMsg;
@@ -93,7 +93,7 @@ const Host = ({navigation}) => {
         let errorMsg = "OK";
 
         if (hostName == "")
-            errorMsg = "You must specify the name!" + "\n";
+            errorMsg = "Вы забыли указать имя!" + "\n";
 
         errorMsg = checkCorrectTimer(timer1String, 1, errorMsg);
         errorMsg = checkCorrectTimer(timer2String, 2, errorMsg); 
@@ -106,10 +106,10 @@ const Host = ({navigation}) => {
             <FlatList data={[{}]} renderItem={() => {
                 return (
                     <View>
-                        <Text style={gStyle.text}>Name:</Text>
+                        <Text style={gStyle.text}>Имя:</Text>
                         <TextInput style={gStyle.input} onChangeText={(value) => {onChangeTextValue(value, setHostName)}}/>
 
-                        <Text style={gStyle.text}>Timer 1 (on/off):</Text>
+                        <Text style={gStyle.text}>Таймер 1 (on/off):</Text>
                         <MainSwitch value={timer1SwitchValue} changeFunction={() => {
                             timerSwitchHandle(
                                 timer1SwitchValue, 
@@ -120,7 +120,7 @@ const Host = ({navigation}) => {
                                 setTimer1String)
                         }} />
 
-                        <Text style={gStyle.text}>Timer 1 (s):</Text>
+                        <Text style={gStyle.text}>Таймер 1 (с):</Text>
                         <TextInput 
                             style={gStyle.input} 
                             value={timer1String} 
@@ -128,7 +128,7 @@ const Host = ({navigation}) => {
                             onChangeText={(value) => {onChangeTextValue(value, setTimer1String)}} 
                             editable={timer1Editable} />
                         
-                        <Text style={gStyle.text} >Timer 2 (on/off):</Text>
+                        <Text style={gStyle.text} >Таймер 2 (on/off):</Text>
                         <MainSwitch value={timer2SwitchValue} changeFunction={() => {
                             timerSwitchHandle(
                                 timer2SwitchValue, 
@@ -139,7 +139,7 @@ const Host = ({navigation}) => {
                                 setTimer2String)
                         }} />
                         
-                        <Text style={gStyle.text} >Timer 2 (s):</Text>
+                        <Text style={gStyle.text} >Таймер 2 (с):</Text>
                         <TextInput 
                             style={gStyle.input} 
                             value={timer2String} 
@@ -147,16 +147,16 @@ const Host = ({navigation}) => {
                             onChangeText={(value) => {onChangeTextValue(value, setTimer2String)}} 
                             editable={timer2Editable} />
 
-                        <Text style={gStyle.text} >False start (on/off):</Text>
+                        <Text style={gStyle.text} >Фальстарт (on/off):</Text>
                         <MainSwitch value={false} changeFunction={() => {simpleSwichHandle(fStartSwitchValue, setFStartSwitchValue)}} />
 
-                        <Text style={gStyle.text} >Reset last timer for next (on/off):</Text>
+                        <Text style={gStyle.text} >Сбрасывать последний таймер в ситеме при продолжении розыгрыша (on/off):</Text>
                         <MainSwitch value={false} changeFunction={() => {simpleSwichHandle(resetLTimerSwitchValue, setResetLTimerSwitchValue)}} />
 
-                        <Text style={gStyle.text} >Lock buttons before starting the system (on/off):</Text>
+                        <Text style={gStyle.text} >Блокировать кнопки до запуска системы (on/off):</Text>
                         <MainSwitch value={false} changeFunction={() => {simpleSwichHandle(lockButtonsSwitchValue, setLockButtonsSwitchValue)}} />
 
-                        <MainButton title='Begin' pressFunction={beginButtonHandle} />
+                        <MainButton title='Начать' pressFunction={beginButtonHandle} />
                     </View>
                 );
             }} />

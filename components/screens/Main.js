@@ -10,10 +10,10 @@ const Main = ({navigation}) => {
 
     return (
         <SafeAreaView style={gStyle.screen}>
-            <Text style={gStyle.brainTitle}>Brain System</Text>
+            <Text style={gStyle.brainTitle}>Брейн-система</Text>
             <Image style={gStyle.brainDisplay} source={require('../../res/BrainSystem.png')} />
-            <MainButton title='Host' pressFunction={() => {loadScreen('host')}} />
-            <MainButton title='Player' pressFunction={() => {loadScreen('player')}} />
+            <MainButton title='Ведущий' pressFunction={() => {loadScreen('host')}} />
+            <MainButton title='Игрок' pressFunction={() => {loadScreen('player')}} />
         </SafeAreaView>
     );
 };

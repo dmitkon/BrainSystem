@@ -17,31 +17,31 @@ const Navigate = () => {
                 <Stack.Screen 
                     name="main"
                     component={Main}
-                    options={{title: "Main", orientation: 'portrait'}}
+                    options={{title: "Начало", orientation: 'portrait'}}
                     />
 
                 <Stack.Screen 
                     name="host"
                     component={Host}
-                    options={{title: "Host"}}
+                    options={{title: "Ведущий"}}
                     />
                 
                 <Stack.Screen 
                     name="player"
                     component={Player}
-                    options={{title: "Player"}}
+                    options={{title: "Игрок"}}
                     />
 
                 <Stack.Screen 
                     name="playerButton"
                     component={PlayerButton}
-                    options={{title: "Button"}}
+                    options={{title: "Кнопка"}}
                     />
                 
                 <Stack.Screen 
                     name="hostSystem"
                     component={HostSystem}
-                    options={{title: "System"}}
+                    options={{title: "Система"}}
                     />
             </Stack.Navigator>
         </NavigationContainer>

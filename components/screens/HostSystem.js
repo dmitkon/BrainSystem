@@ -31,8 +31,8 @@ const HostSystem = ({route}) => {
                 <SystemButton nameIcon='ccw' />
             </View>
             
-            <MainButton title="Connection list" />
-            <MainButton title="End" />
+            <MainButton title="Список соединений" />
+            <MainButton title="Закончить" />
 
         </SafeAreaView>
     );
