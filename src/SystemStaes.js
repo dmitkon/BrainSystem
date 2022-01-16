@@ -10,7 +10,7 @@ export const getButtonPushState = () => {
     return 2;
 };
 
-export const getEndTimeState = () => {
+export const getTimeIsUpState = () => {
     return 3;
 };
 

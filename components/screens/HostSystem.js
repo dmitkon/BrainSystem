@@ -7,9 +7,14 @@ import {
     getBeginState,
     getRunState,
     getButtonPushState,
-    getEndTimeState,
+    getTimeIsUpState,
     isValueState
 } from '../../src/SystemStaes';
+import {
+    getRunCommand,
+    getStopCommand,
+    getResetCommand
+} from '../items/Timer';
 import { timerStyle } from '../../styles/TimerStyles';
 
 const HostSystem = ({route}) => {
@@ -20,23 +25,33 @@ const HostSystem = ({route}) => {
     const lockButtons = route.params.lockButtonsSwitchValue;
     
     const [systemState, setSystemState] = useState(getBeginState());
+    const [timerCommands, setTimerCommands] = useState([getStopCommand(), getResetCommand()]);
     
     const pushHandle = () => {
-        console.log("push")
+        console.log("push");
+
         setSystemState(getButtonPushState());
     };
 
     const runHandle = () => {
-        console.log("run")
+        console.log("run");
+
         setSystemState(getRunState());
+        setTimerCommands([getRunCommand()]);
     };
 
     const nextHandle = () => {
-        console.log("next")
+        console.log("next");
     };
 
     const resetHandle = () => {
-        console.log("reset")
+        console.log("reset");
+
+        setTimerCommands([getResetCommand()]);
+    };
+
+    const timeIsUpHandle = () => {
+        console.log("Time is out");
     };
 
     return(
@@ -52,7 +67,7 @@ const HostSystem = ({route}) => {
                 </Text>
             </View>
 
-            <Timer style={timerStyle.text}/>
+            <Timer style={timerStyle.text} time={6} commands={timerCommands} onTimeIsUp={timeIsUpHandle} />
 
             <View style={style.buttonPanel}>
                 <SystemButton nameIcon='controller-play' onPressIn={runHandle} />
@@ -60,7 +75,7 @@ const HostSystem = ({route}) => {
                 <SystemButton nameIcon='ccw' onPressIn={resetHandle}/>
             </View>
 
-            <SystemButton onPressIn={pushHandle} />
+            <SystemButton nameIcon='thumbs-up' onPressIn={pushHandle} />
 
         </SafeAreaView>
     );

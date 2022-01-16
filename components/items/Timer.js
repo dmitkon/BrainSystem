@@ -1,17 +1,46 @@
 import React, { useState } from 'react';
-import { Text, Switch, View } from 'react-native';
-import { 
-    getBeginState,
-    getRunState,
-    getButtonPushState,
-    getEndTimeState,
-    isValueState
-} from '../../src/SystemStaes';
+import { Text, View } from 'react-native';
+
+export const getRunCommand = () => {
+    return "run";
+};
+
+export const getStopCommand = () => {
+    return "stop";
+};
+
+export const getResetCommand = () => {
+    return "reset";
+};
+
+const getTimeInitStatus = () => {
+    return "init";
+};
+
+const getTimeProcessStatus = () => {
+    return "process";
+};
+
+const getTimePauseStatus = () => {
+    return "pause";
+};
+
+const getTimeIsUpStatus = () => {
+    return "time_is_up";
+};
+
+const isValue = (value, onject) => {
+    return value == onject;
+};
 
 class Timer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {date: new Date()};
+        this.state = {
+            startDate: null,
+            time: 0,
+            timeStatus: getTimeInitStatus()
+        };
     }
 
     componentDidMount() {
@@ -22,8 +51,34 @@ class Timer extends React.Component {
         clearInterval(this.timerID);
     }
     
-    tick() {    
-        this.setState({date: new Date()});
+    tick() {
+        this.props.commands.forEach((item, i) => {
+            if (isValue(item, getRunCommand())) {
+                if (isValue(this.state.timeStatus, getTimeInitStatus())) {
+                    this.setState({startDate: new Date()});
+                    this.setState({timeStatus: getTimeProcessStatus()});
+                };
+
+                if (!isValue(this.state.timeStatus, getTimeIsUpStatus())) {
+                    const nowDate = new Date();
+                    this.setState({time: nowDate.getTime() - this.state.startDate.getTime()});
+                };
+            };
+    
+            if (isValue(item, getResetCommand())) {
+                if (!isValue(this.state.timeStatus, getTimeInitStatus())) {
+                    this.setState({time: 0});
+                    this.setState({timeStatus: getTimeInitStatus()});
+                };
+            };
+        });
+
+        if (parseInt(this.state.time / 1000) == this.props.time) {
+            if (!isValue(this.state.timeStatus, getTimeIsUpStatus())) {
+                this.props.onTimeIsUp();
+                this.setState({timeStatus: getTimeIsUpStatus()});
+            };
+        }
     }
 
     getTimerText() {
@@ -38,9 +93,9 @@ class Timer extends React.Component {
 
         let timerText = "";
 
-        timerText = addTimeBlock(timerText, this.state.date.getSeconds());
+        timerText = addTimeBlock(timerText, parseInt(this.state.time / 1000));
         timerText += ":";
-        timerText = addTimeBlock(timerText, parseInt(this.state.date.getMilliseconds() / 10));
+        timerText = addTimeBlock(timerText, parseInt(this.state.time % 1000 / 10));
 
         return timerText;
     };
@@ -48,41 +103,10 @@ class Timer extends React.Component {
     render () {
         return (
             <View>
-                <Text style={this.props.style}>{true ? this.getTimerText() : "Время истекло!"}</Text>
+                <Text style={this.props.style}>{isValue(this.state.timeStatus, getTimeIsUpStatus()) ? "Время истекло!" : this.getTimerText()}</Text>
             </View>
         );
     }
 }
-
-/*const Timer = (props) => {
-    const [timeView, setTimeView] = useState(getTimerText(0, 0));
-
-    const timerProcess = (timer) => {
-        let startTime = new Date();
-
-        while (isValueState(props.state, getRunState())) {
-            let nowTime = new Date();
-
-            let ms = nowTime.getTime() - startTime.getTime()
-
-            if (parseInt(ms / 1000) == timer)
-                state = getEndTimeState();
-                
-            let s = parseInt(ms / 1000);
-            let ss = parseInt(ms%1000 / 10);
-            
-            console.log(getTimerText(s, ss));
-            setTimeView(getTimerText(s, ss));
-        }
-    }
-
-    timerProcess(6);
-
-    return (
-        <View>
-            <Text style={timerStyle.text}>{timeView}</Text>
-        </View>
-    );
-};*/
 
 export default Timer;
