@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 
 const SystemButton = (props) => {
     return(
-        <TouchableOpacity style={systemButtonStyles.systemButton} onPress={props.pressFunction} >
+        <TouchableOpacity style={systemButtonStyles.systemButton} onPressIn={props.onPressIn} >
             <Icon name={props.nameIcon} style={systemButtonStyles.icon}/>
         </TouchableOpacity>
     );

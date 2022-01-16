@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, SafeAreaView, View, StyleSheet } from 'react-native';
 import { gStyle } from '../../styles/GeneralStyles';
-import MainButton from '../items/MainButton';
 import SystemButton from '../items/SystemButton';
+import Timer from '../items/Timer';
+import { 
+    getBeginState,
+    getRunState,
+    getButtonPushState,
+    getEndTimeState,
+    isValueState
+} from '../../src/SystemStaes';
+import { timerStyle } from '../../styles/TimerStyles';
 
 const HostSystem = ({route}) => {
     const hostName = route.params.hostName;
@@ -10,6 +18,26 @@ const HostSystem = ({route}) => {
     const falseStart = route.params.fStartSwitchValue;
     const resetLastTimer = route.params.resetLTimerSwitchValue;
     const lockButtons = route.params.lockButtonsSwitchValue;
+    
+    const [systemState, setSystemState] = useState(getBeginState());
+    
+    const pushHandle = () => {
+        console.log("push")
+        setSystemState(getButtonPushState());
+    };
+
+    const runHandle = () => {
+        console.log("run")
+        setSystemState(getRunState());
+    };
+
+    const nextHandle = () => {
+        console.log("next")
+    };
+
+    const resetHandle = () => {
+        console.log("reset")
+    };
 
     return(
         <SafeAreaView style={gStyle.screen}>
@@ -23,16 +51,16 @@ const HostSystem = ({route}) => {
                     Lock buttons {lockButtons ? "ON" : "OFF"} {'\n'}
                 </Text>
             </View>
-            <Text style={gStyle.text}>00:00</Text>
+
+            <Timer style={timerStyle.text}/>
 
             <View style={style.buttonPanel}>
-                <SystemButton nameIcon='controller-play' />
-                <SystemButton nameIcon='arrow-long-right' />
-                <SystemButton nameIcon='ccw' />
+                <SystemButton nameIcon='controller-play' onPressIn={runHandle} />
+                <SystemButton nameIcon='arrow-long-right' onPressIn={nextHandle} />
+                <SystemButton nameIcon='ccw' onPressIn={resetHandle}/>
             </View>
-            
-            <MainButton title="Список соединений" />
-            <MainButton title="Закончить" />
+
+            <SystemButton onPressIn={pushHandle} />
 
         </SafeAreaView>
     );

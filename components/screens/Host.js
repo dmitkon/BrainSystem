@@ -156,7 +156,7 @@ const Host = ({navigation}) => {
                         <Text style={gStyle.text} >Блокировать кнопки до запуска системы (on/off):</Text>
                         <MainSwitch value={false} changeFunction={() => {simpleSwichHandle(lockButtonsSwitchValue, setLockButtonsSwitchValue)}} />
 
-                        <MainButton title='Начать' pressFunction={beginButtonHandle} />
+                        <MainButton title='Начать' onPress={beginButtonHandle} />
                     </View>
                 );
             }} />

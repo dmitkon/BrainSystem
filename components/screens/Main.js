@@ -12,8 +12,8 @@ const Main = ({navigation}) => {
         <SafeAreaView style={gStyle.screen}>
             <Text style={gStyle.brainTitle}>Брейн-система</Text>
             <Image style={gStyle.brainDisplay} source={require('../../res/BrainSystem.png')} />
-            <MainButton title='Ведущий' pressFunction={() => {loadScreen('host')}} />
-            <MainButton title='Игрок' pressFunction={() => {loadScreen('player')}} />
+            <MainButton title='Ведущий' onPress={() => {loadScreen('host')}} />
+            <MainButton title='Игрок' onPress={() => {loadScreen('player')}} />
         </SafeAreaView>
     );
 };
