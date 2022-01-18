@@ -8,13 +8,15 @@ import {
     getRunState,
     getButtonPushState,
     getTimeIsUpState,
+    getPauseState,
     isValueState
-} from '../../src/SystemStaes';
+} from '../../src/SystemStates';
 import {
     getRunCommand,
     getStopCommand,
-    getResetCommand
-} from '../items/Timer';
+    getResetCommand,
+    getResetAndStartCommand
+} from '../../src/TimerCommands';
 import { timerStyle } from '../../styles/TimerStyles';
 
 const HostSystem = ({route}) => {
@@ -23,35 +25,87 @@ const HostSystem = ({route}) => {
     const falseStart = route.params.fStartSwitchValue;
     const resetLastTimer = route.params.resetLTimerSwitchValue;
     const lockButtons = route.params.lockButtonsSwitchValue;
-    
+
+    const isEmptyTimers = () => {
+        return timers.length == 0;
+    };
+
+    const isExistNextTimer = () => {
+        return timers.length > timerIndex + 1;
+    };
+
     const [systemState, setSystemState] = useState(getBeginState());
-    const [timerCommands, setTimerCommands] = useState([getStopCommand(), getResetCommand()]);
+    const [timerCommand, setTimerCommand] = useState(getResetCommand());
+    const [timerIndex, setTimerIndex] = useState(isEmptyTimers() ? null : 0);
     
     const pushHandle = () => {
-        console.log("push");
+        if (isValueState(systemState, getRunState()) || isValueState(systemState, getBeginState()) && !lockButtons) {
+            console.log("push");
 
-        setSystemState(getButtonPushState());
+            setSystemState(getButtonPushState());
+
+            if (!isEmptyTimers())
+                setTimerCommand(getStopCommand());
+
+            //if (isValueState(systemState, getBeginState()) && falseStart)
+            //    ...
+        };
     };
 
     const runHandle = () => {
-        console.log("run");
+        if (isValueState(systemState, getRunState()) || isValueState(systemState, getBeginState()) || isValueState(systemState, getPauseState()))
+        {
+            console.log("run");
 
-        setSystemState(getRunState());
-        setTimerCommands([getRunCommand()]);
+            if (isValueState(systemState, getRunState())) {
+                setSystemState(getPauseState());
+                
+                if (!isEmptyTimers())
+                    setTimerCommand(getStopCommand());
+            }
+            else {
+                setSystemState(getRunState());
+                
+                if (!isEmptyTimers())
+                    setTimerCommand(getRunCommand());
+            };
+        };
     };
 
     const nextHandle = () => {
-        console.log("next");
+        if (isValueState(systemState, getButtonPushState())) {
+            console.log("next");
+
+            setSystemState(getRunState());
+
+            if (!isEmptyTimers())
+                if (isExistNextTimer()) {
+                    setTimerIndex(timerIndex + 1);
+                    setTimerCommand(getResetAndStartCommand());
+                }
+                else
+                    if (resetLastTimer)
+                        setTimerCommand(getResetAndStartCommand())
+                    else
+                        setTimerCommand(getRunCommand());
+        };
     };
 
     const resetHandle = () => {
         console.log("reset");
 
-        setTimerCommands([getResetCommand()]);
+        setSystemState(getBeginState());
+
+        if (!isEmptyTimers()) {
+            setTimerCommand(getResetCommand());
+            setTimerIndex(0);
+        };
     };
 
     const timeIsUpHandle = () => {
-        console.log("Time is out");
+        console.log("Time is up");
+
+        setSystemState(getTimeIsUpState());
     };
 
     return(
@@ -60,17 +114,17 @@ const HostSystem = ({route}) => {
 
             <View style={gStyle.brainDisplay}>
                 <Text>
-                    Timers {timers}s {'\n'}
+                    {/*Timers {timers}s {'\n'}
                     False start {falseStart ? "ON" : "OFF"} {'\n'}
                     Reset last {resetLastTimer ? "ON" : "OFF"} {'\n'}
-                    Lock buttons {lockButtons ? "ON" : "OFF"} {'\n'}
+                    Lock buttons {lockButtons ? "ON" : "OFF"} {'\n'}*/}
                 </Text>
             </View>
 
-            <Timer style={timerStyle.text} time={6} commands={timerCommands} onTimeIsUp={timeIsUpHandle} />
+            <Timer style={timerStyle.text} time={timerIndex == null ? null : timers[timerIndex]} command={timerCommand} onTimeIsUp={timeIsUpHandle} />
 
             <View style={style.buttonPanel}>
-                <SystemButton nameIcon='controller-play' onPressIn={runHandle} />
+                <SystemButton nameIcon={isValueState(systemState, getRunState()) ? 'controller-paus' : 'controller-play'} onPressIn={runHandle} />
                 <SystemButton nameIcon='arrow-long-right' onPressIn={nextHandle} />
                 <SystemButton nameIcon='ccw' onPressIn={resetHandle}/>
             </View>

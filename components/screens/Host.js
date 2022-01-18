@@ -73,7 +73,7 @@ const Host = ({navigation}) => {
         let errorMsg = checkCorrectConfig(timer1String, timer2String, hostName);
 
         if (errorMsg == "OK")
-            loadScreen('hostSystem');
+            loadScreen('hostSystem')
         else
             Alert.alert("Ошибка конфигурации системы", errorMsg, [{text: "OK"}])
     };

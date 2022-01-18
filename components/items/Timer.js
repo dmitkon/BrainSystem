@@ -1,37 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
-
-export const getRunCommand = () => {
-    return "run";
-};
-
-export const getStopCommand = () => {
-    return "stop";
-};
-
-export const getResetCommand = () => {
-    return "reset";
-};
-
-const getTimeInitStatus = () => {
-    return "init";
-};
-
-const getTimeProcessStatus = () => {
-    return "process";
-};
-
-const getTimePauseStatus = () => {
-    return "pause";
-};
-
-const getTimeIsUpStatus = () => {
-    return "time_is_up";
-};
-
-const isValue = (value, onject) => {
-    return value == onject;
-};
+import {
+    getRunCommand,
+    getStopCommand,
+    getResetCommand,
+    getResetAndStartCommand,
+    isValueCommand
+} from '../../src/TimerCommands';
 
 class Timer extends React.Component {
     constructor(props) {
@@ -39,47 +14,59 @@ class Timer extends React.Component {
         this.state = {
             startDate: null,
             time: 0,
-            timeStatus: getTimeInitStatus()
+            pastTime: 0,
+            timeStatus: true
         };
-    }
-
-    componentDidMount() {
-        this.timerID = setInterval(() => this.tick(), 1);
-    }
+    };
     
     componentWillUnmount() {
         clearInterval(this.timerID);
-    }
+    };
+
+    componentDidUpdate(prevProps) {
+        if (this.props.command !== prevProps.command) {
+            if (isValueCommand(this.props.command, getRunCommand()))
+                if (this.state.timeStatus) {
+                    this.setState({startDate: new Date()});
+                    this.timerID = setInterval(() => this.tick(), 1);
+                };
+
+            if (isValueCommand(this.props.command, getStopCommand())) {
+                clearInterval(this.timerID);
+                this.setState({pastTime: this.state.time});
+            };
+
+            if (isValueCommand(this.props.command, getResetCommand())) {
+                clearInterval(this.timerID);
+                this.setState({time: 0});
+                this.setState({pastTime: 0});
+                this.setState({timeStatus: true});
+            };
+
+            if (isValueCommand(this.props.command, getResetAndStartCommand())) {
+                if (this.state.timeStatus) {
+                    clearInterval(this.timerID);
+                    this.setState({time: 0});
+                    this.setState({pastTime: 0});
+
+                    this.setState({startDate: new Date()});
+                    this.timerID = setInterval(() => this.tick(), 1);
+                };
+            };
+        };
+    };
     
     tick() {
-        this.props.commands.forEach((item, i) => {
-            if (isValue(item, getRunCommand())) {
-                if (isValue(this.state.timeStatus, getTimeInitStatus())) {
-                    this.setState({startDate: new Date()});
-                    this.setState({timeStatus: getTimeProcessStatus()});
-                };
-
-                if (!isValue(this.state.timeStatus, getTimeIsUpStatus())) {
-                    const nowDate = new Date();
-                    this.setState({time: nowDate.getTime() - this.state.startDate.getTime()});
-                };
-            };
-    
-            if (isValue(item, getResetCommand())) {
-                if (!isValue(this.state.timeStatus, getTimeInitStatus())) {
-                    this.setState({time: 0});
-                    this.setState({timeStatus: getTimeInitStatus()});
-                };
-            };
-        });
+        const nowDate = new Date();
+        this.setState({time: nowDate.getTime() - this.state.startDate.getTime() + this.state.pastTime});
 
         if (parseInt(this.state.time / 1000) == this.props.time) {
-            if (!isValue(this.state.timeStatus, getTimeIsUpStatus())) {
+            if (this.state.timeStatus) {
                 this.props.onTimeIsUp();
-                this.setState({timeStatus: getTimeIsUpStatus()});
+                this.setState({timeStatus: false});
             };
-        }
-    }
+        };
+    };
 
     getTimerText() {
         const addTimeBlock = (text, time) => {
@@ -103,10 +90,10 @@ class Timer extends React.Component {
     render () {
         return (
             <View>
-                <Text style={this.props.style}>{isValue(this.state.timeStatus, getTimeIsUpStatus()) ? "Время истекло!" : this.getTimerText()}</Text>
+                <Text style={this.props.style}>{this.props.time == null ? "Без таймера" : this.state.timeStatus ? this.getTimerText() : "Время истекло!"}</Text>
             </View>
         );
-    }
-}
+    };
+};
 
 export default Timer;
