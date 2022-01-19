@@ -90,7 +90,7 @@ class Timer extends React.Component {
     render () {
         return (
             <View>
-                <Text style={this.props.style}>{this.props.time == null ? "Без таймера" : this.state.timeStatus ? this.getTimerText() : "Время истекло!"}</Text>
+                <Text style={this.props.style}>{this.props.time == null ? "Без таймера" : this.state.timeStatus ? this.getTimerText() : "Время!"}</Text>
             </View>
         );
     };

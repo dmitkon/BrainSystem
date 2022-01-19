@@ -18,6 +18,8 @@ import {
     getResetAndStartCommand
 } from '../../src/TimerCommands';
 import { timerStyle } from '../../styles/TimerStyles';
+import Display from '../items/Display';
+import { getLight } from '../../src/lampLights';
 
 const HostSystem = ({route}) => {
     const hostName = route.params.hostName;
@@ -37,18 +39,23 @@ const HostSystem = ({route}) => {
     const [systemState, setSystemState] = useState(getBeginState());
     const [timerCommand, setTimerCommand] = useState(getResetCommand());
     const [timerIndex, setTimerIndex] = useState(isEmptyTimers() ? null : 0);
+    const [systemStatus, setSystemStatus] = useState("Система не запущена");
+    const [lampLight, setLampLight] = useState(getLight(0));
     
     const pushHandle = () => {
         if (isValueState(systemState, getRunState()) || isValueState(systemState, getBeginState()) && !lockButtons) {
             console.log("push");
 
             setSystemState(getButtonPushState());
+            setLampLight(getLight(2));
 
             if (!isEmptyTimers())
                 setTimerCommand(getStopCommand());
 
-            //if (isValueState(systemState, getBeginState()) && falseStart)
-            //    ...
+            if (isValueState(systemState, getBeginState()) && falseStart)
+                setSystemStatus("Фальстарт");
+            else
+                setSystemStatus("Нажал кнопку");
         };
     };
 
@@ -59,12 +66,16 @@ const HostSystem = ({route}) => {
 
             if (isValueState(systemState, getRunState())) {
                 setSystemState(getPauseState());
+                setSystemStatus("Система остановлена");
+                setLampLight(getLight(0));
                 
                 if (!isEmptyTimers())
                     setTimerCommand(getStopCommand());
             }
             else {
                 setSystemState(getRunState());
+                setSystemStatus("Система запущена");
+                setLampLight(getLight(1));
                 
                 if (!isEmptyTimers())
                     setTimerCommand(getRunCommand());
@@ -77,6 +88,8 @@ const HostSystem = ({route}) => {
             console.log("next");
 
             setSystemState(getRunState());
+            setSystemStatus("Система запущена");
+            setLampLight(getLight(1));
 
             if (!isEmptyTimers())
                 if (isExistNextTimer()) {
@@ -95,6 +108,8 @@ const HostSystem = ({route}) => {
         console.log("reset");
 
         setSystemState(getBeginState());
+        setSystemStatus("Система не запущена");
+        setLampLight(getLight(0));
 
         if (!isEmptyTimers()) {
             setTimerCommand(getResetCommand());
@@ -106,20 +121,15 @@ const HostSystem = ({route}) => {
         console.log("Time is up");
 
         setSystemState(getTimeIsUpState());
+        setSystemStatus("Время истекло");
+        setLampLight(getLight(0));
     };
 
     return(
         <SafeAreaView style={gStyle.screen}>
             <Text style={gStyle.brainTitle}>{hostName}</Text>
 
-            <View style={gStyle.brainDisplay}>
-                <Text>
-                    {/*Timers {timers}s {'\n'}
-                    False start {falseStart ? "ON" : "OFF"} {'\n'}
-                    Reset last {resetLastTimer ? "ON" : "OFF"} {'\n'}
-                    Lock buttons {lockButtons ? "ON" : "OFF"} {'\n'}*/}
-                </Text>
-            </View>
+            <Display status={systemStatus} light={lampLight} />
 
             <Timer style={timerStyle.text} time={timerIndex == null ? null : timers[timerIndex]} command={timerCommand} onTimeIsUp={timeIsUpHandle} />
 

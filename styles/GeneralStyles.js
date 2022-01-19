@@ -24,11 +24,6 @@ export const gStyle = StyleSheet.create({
         borderRadius: 100
     },
 
-    brainDisplay: {
-        width: 300, 
-        height: 300
-    },
-
     brainTitle: {
         fontSize: 36,
         color: 'black'

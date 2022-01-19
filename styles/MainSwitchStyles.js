@@ -8,7 +8,6 @@ export const mainSwitchStyle = StyleSheet.create({
 
     falseColor: '#f44336',
     trueColor: '#4caf50',
-    disabledColor: '#f0f0f0',
     thumbColor: '#E6E6E6',
 
     container: {
