@@ -3,7 +3,7 @@ import { Text, SafeAreaView } from 'react-native';
 import SystemButton from '../items/SystemButton';
 import Display from '../items/Display';
 import { gStyle } from '../../styles/GeneralStyles';
-import { getLight } from '../../src/lampLights';
+import { getLight } from '../../src/LampLights';
 
 const PlayerButton = ({route}) => {
     const [systemStatus, setSystemStatus] = useState("Система не запущена");

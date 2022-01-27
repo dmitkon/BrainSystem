@@ -19,7 +19,7 @@ import {
 } from '../../src/TimerCommands';
 import { timerStyle } from '../../styles/TimerStyles';
 import Display from '../items/Display';
-import { getLight } from '../../src/lampLights';
+import { getLight } from '../../src/LampLights';
 
 const HostSystem = ({route}) => {
     const hostName = route.params.hostName;

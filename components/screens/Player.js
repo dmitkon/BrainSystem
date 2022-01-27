@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Text, TextInput, SafeAreaView } from 'react-native';
+import { Text, TextInput, SafeAreaView, FlatList, View, TouchableOpacity } from 'react-native';
 import { gStyle } from '../../styles/GeneralStyles';
-import MainButton from '../items/MainButton'
 
 const Player = ({navigation}) => {
     const loadScreen = (screen) => {
@@ -18,7 +17,15 @@ const Player = ({navigation}) => {
         <SafeAreaView style={gStyle.screen}>
             <Text style={gStyle.text}>Имя:</Text>
             <TextInput style={gStyle.input} onChangeText={onChange} />
-            <MainButton title='Начать' onPress={() => {loadScreen('playerButton')}} />
+            <FlatList data={['111111', '222222', '333333', '444444']} renderItem={({ item }) => {
+                return (
+                    <View>
+                        <TouchableOpacity onPress={() => {loadScreen('playerButton')}}>
+                            <Text style={{fontSize: 32}}>{item}</Text>
+                        </TouchableOpacity>
+                    </View>
+                );
+            }} />
         </SafeAreaView>
     );
 };
