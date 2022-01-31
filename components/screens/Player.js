@@ -1,38 +1,61 @@
 import React, { useState } from 'react';
-import { Text, TextInput, SafeAreaView, FlatList, View, TouchableOpacity, Alert } from 'react-native';
+import { Text, TextInput, SafeAreaView, Alert } from 'react-native';
+import { cancelDiscovery, startDiscovery } from '../../src/android/Bluetooth';
 import { gStyle } from '../../styles/GeneralStyles';
+import DevicesList from '../items/DevicesList';
+import MainButton from '../items/MainButton';
 
 const Player = ({navigation}) => {
     const loadScreen = (screen) => {
         navigation.navigate(screen, { playerName });
     };
 
-    const [playerName, setPlayerName] = useState("");
+    const [playerName, setPlayerName] = useState("");   
+    const [devices, setDevices] = useState([]);
+
+    const beginDiscovery = () => {
+        cancelDiscovery().then((cancel) => {
+            if (!cancel)
+                startDiscovery().then((result) => {
+                    if (result.granted)
+                        setDevices(result.devices)
+                    else
+                        Alert.alert("Ошибка поиска", "Посик недоступен, требуется разрешить доступ к точному местоположению", [{text: "OK"}]);
+                })
+            else
+                Alert.alert("Предупреждение", "Посик остановлен", [{text: "OK"}]);
+        });
+    };
 
     const onChange = (playerName) => {
         setPlayerName(playerName);
     };
 
+    const checkCorrectConfig = (playerName) => {
+        let errorMsg = "OK";
+
+        if (playerName == "")
+            errorMsg = "Вы забыли указать имя!" + "\n";
+
+        return errorMsg;
+    };
+
     const beginHandle = () => {
-        if (true)
+        let errorMsg = checkCorrectConfig(playerName);
+
+        if (errorMsg == "OK")
             loadScreen('playerButton')
         else
-            Alert.alert("Error", "", [{text: "OK"}]);
+            Alert.alert("Ошибка конфигурации игрока", errorMsg, [{text: "OK"}]);
     };
 
     return (
         <SafeAreaView style={gStyle.screen}>
             <Text style={gStyle.text}>Имя:</Text>
             <TextInput style={gStyle.input} onChangeText={onChange} />
-            <FlatList data={['111111', '222222', '333333', '444444']} renderItem={({ item }) => {
-                return (
-                    <View>
-                        <TouchableOpacity onPress={beginHandle}>
-                            <Text style={{fontSize: 32}}>{item}</Text>
-                        </TouchableOpacity>
-                    </View>
-                );
-            }} />
+            <DevicesList data={devices} style={gStyle.text} itemPress={beginHandle} />
+
+            <MainButton title={"Начать/остановить" + "\n" + "поиск систем"} onPress={beginDiscovery}/>
         </SafeAreaView>
     );
 };

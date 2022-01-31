@@ -20,6 +20,7 @@ export const mainButtonStyles = StyleSheet.create({
 
     buttonText: {
         fontSize: 24,
-        color: 'black'
+        color: 'black',
+        textAlign: "center"
     },
 });

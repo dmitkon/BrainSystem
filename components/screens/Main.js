@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, Image, SafeAreaView, StyleSheet, Alert } from 'react-native';
-import { bluetoothInit } from '../../src/Bluetooth';
+import { bluetoothInit } from '../../src/android/Bluetooth';
 import { gStyle } from '../../styles/GeneralStyles';
 import MainButton from '../items/MainButton';
 
@@ -11,8 +11,6 @@ const Main = ({navigation}) => {
 
     const beginHandle = (screen) => {
         bluetoothInit().then((statusMsg) => {
-            console.log(statusMsg);
-            
             if (statusMsg == "OK")
                 loadScreen(screen)
             else
